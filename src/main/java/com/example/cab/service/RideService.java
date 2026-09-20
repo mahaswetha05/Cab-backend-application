@@ -19,7 +19,7 @@ public class RideService {
 	@Autowired
 	UserRepo ur2;
 	
-	
+	//user 
 	public Ride requestRide(int passengerid,RideRequest request) {
 		Ride r=new Ride();
 		r.setPassenger(ur2.findById(passengerid).get());
@@ -30,4 +30,44 @@ public class RideService {
 		return rr1.save(r);
 		
 	}
+	//admin assigning driver
+	public Ride assigndriver(int rideid,int driverid) {
+		Ride r=rr1.findById(rideid).get();
+		User driver=ur2.findById(driverid).get();
+		r.setDriver(driver);
+		r.setStatus(RideStatus.ACCEPTED);
+		return rr1.save(r);
+		
+	}
+	
+	// driver see the ride,otp(rideid) start ride
+	
+	public Ride startRide(int rideid) {
+		
+		Ride r=rr1.findById(rideid).get();
+		r.setStatus(RideStatus.STARTED);
+		return rr1.save(r);
+	}
+	//driver update status
+    public Ride completeRide(int rideid) {
+		
+		Ride r=rr1.findById(rideid).get();
+		r.setStatus(RideStatus.COMPLETED);
+		return rr1.save(r);
+	}
+    
+    public Ride cancellRide(int rideid) {
+		
+		Ride r=rr1.findById(rideid).get();
+		r.setStatus(RideStatus.CANCELLED);
+		return rr1.save(r);
+	}
+    
+    
+	
+
+	
+
+	
+	
 }

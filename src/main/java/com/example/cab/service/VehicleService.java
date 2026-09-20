@@ -12,9 +12,17 @@ public class VehicleService {
 	@Autowired
 	VehicleRepo vr1;
 	
-	public Vehicle addVehicle(Vehicle v) {
-		
-		return vr1.save(v);
+	@Autowired
+	UserRepo ur3;
+	
+	public Vehicle addVehicle(int driverId, Vehicle vehicle) {
+
+	    User driver = ur3.findById(driverId)
+	            .orElseThrow(() -> new RuntimeException("Driver not found"));
+
+	    vehicle.setDriver(driver);
+
+	    return vr1.save(vehicle);
 	}
 
 }
